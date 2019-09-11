@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".details.DetailsFragment">
+
+    <data>
+        <variable name="detailsViewModel"
+                  type="com.projects.mycompany.apod_app.details.DetailsViewModel"/>
+    </data>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="300dp" tools:src="@tools:sample/avatars[0]"
+                    android:id="@+id/detail_image"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{detailsViewModel.data.url}"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="@dimen/margin_low"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="@dimen/margin_low"
+                    android:layout_marginTop="@dimen/margin_low" app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginBottom="@dimen/margin_low" app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.0" android:contentDescription="@null"/>
+
+            <TextView
+                    android:textColor="@color/color_title"
+                    android:text="@{detailsViewModel.data.title}"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/title_dimen"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title_details" app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginBottom="28dp" app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    android:fontFamily="@font/roboto_mono_bold"
+                    android:layout_marginTop="@dimen/margin_medium" app:layout_constraintTop_toBottomOf="@+id/detail_image"
+                    app:layout_constraintVertical_bias="0.0"/>
+            <TextView
+                    android:text="@{detailsViewModel.data.explanation}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:id="@+id/detail_description"
+                    android:textSize="@dimen/description_dimen"
+                    android:textColor="@color/color_title"
+                    app:layout_constraintTop_toBottomOf="@+id/title_details"
+                    android:layout_marginBottom="@dimen/margin_low" app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="@dimen/margin_low"
+                    app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="@dimen/margin_low"
+                    app:layout_constraintVertical_bias="0.0" android:layout_marginTop="@dimen/margin_high"
+                    app:layout_constraintHorizontal_bias="0.0"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
