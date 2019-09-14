@@ -8,49 +8,24 @@
                   type="com.projects.mycompany.apod_app.main.MainViewModel"/>
 
     </data>
-    <!--android:text="@{mainViewModel.response}"-->
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
            >
-        <TextView
-                android:text="@{mainViewModel.response.title}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:id="@+id/test_text" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:textSize="24sp"
-                android:fontFamily="@font/roboto_mono_bold"/>
-        <TextView
-                android:textSize="15sp"
-                android:text="@{mainViewModel.status}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/conne_test" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="8dp" android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-        <Button
-                android:id="@+id/button_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="details"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:onClick="@{() -> mainViewModel.onNavigate()}"
-                app:layout_constraintTop_toBottomOf="@+id/conne_test"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/recycler"
+                android:padding="6dp"
                 app:layout_constraintStart_toStartOf="parent"
-               />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/apod_item"
+                />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

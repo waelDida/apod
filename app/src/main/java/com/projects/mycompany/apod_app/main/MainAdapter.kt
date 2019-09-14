@@ -11,7 +11,7 @@ import com.projects.mycompany.apod_app.R
 import com.projects.mycompany.apod_app.data.Apod
 
 
-class MainAdapter: RecyclerView.Adapter<MainAdapter.ViewHolder>(){
+class MainAdapter(val onClickListener: OnClickListener): RecyclerView.Adapter<MainAdapter.ViewHolder>(){
 
     var apodList = listOf<Apod>()
         set(value){
@@ -31,6 +31,9 @@ class MainAdapter: RecyclerView.Adapter<MainAdapter.ViewHolder>(){
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = apodList[position]
         holder.bind(item)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(item)
+        }
     }
 
 
@@ -41,8 +44,12 @@ class MainAdapter: RecyclerView.Adapter<MainAdapter.ViewHolder>(){
             val uri = apod.url.toUri().buildUpon().scheme("https").build()
             Glide.with(apodImage.context)
                 .load(uri)
+                .centerCrop()
                 .into(apodImage)
         }
     }
 
+    class OnClickListener(val listener : (apod: Apod) -> Unit){
+        fun onClick (apod: Apod) = listener(apod)
+    }
 }

@@ -22,9 +22,9 @@ class MainViewModel: ViewModel(){
     val status: LiveData<String>
         get() = _status
 
-    private val _navigate = MutableLiveData<Apod>()
-    val navigate: LiveData<Apod>
-        get() = _navigate
+    private val _navigateToSelectedApod = MutableLiveData<Apod>()
+    val navigateToSelectedApod: LiveData<Apod>
+        get() = _navigateToSelectedApod
 
     init {
       getApod()
@@ -44,11 +44,11 @@ class MainViewModel: ViewModel(){
         })
     }
 
-    fun onNavigate(){
-        _navigate.value = _response.value
+    fun onNavigate(apod: Apod){
+        _navigateToSelectedApod.value = apod
     }
 
     fun onNvigateTerminated(){
-        _navigate.value = null
+        _navigateToSelectedApod.value = null
     }
 }
