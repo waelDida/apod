@@ -42,7 +42,7 @@ class MainFragment : Fragment() {
                 val list = mutableListOf<Apod>()
                 list.add(it)
                 list.add(it)
-                mainAdapter.apodList = list
+                mainAdapter.submitList(list)
                 binding.recycler.adapter = mainAdapter
             }
         })

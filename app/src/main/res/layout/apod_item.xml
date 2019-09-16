@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable name="apod"
+                  type="com.projects.mycompany.apod_app.data.Apod"/>
+    </data>
 
-    <ImageView
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_width="200dp"
-            android:layout_height="200dp" tools:srcCompat="@tools:sample/avatars[12]"
-            android:id="@+id/apod_image" android:contentDescription="@null"/>
-</RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:id="@+id/apod_image"
+                android:contentDescription="@null"
+                tools:srcCompat="@tools:sample/avatars[12]"
+                app:imageUrl="@{apod.url}"/>
+    </RelativeLayout>
+
+</layout>

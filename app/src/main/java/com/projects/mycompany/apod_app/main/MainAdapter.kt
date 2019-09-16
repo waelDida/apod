@@ -1,55 +1,57 @@
 package com.projects.mycompany.apod_app.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.net.toUri
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.projects.mycompany.apod_app.R
 import com.projects.mycompany.apod_app.data.Apod
+import com.projects.mycompany.apod_app.databinding.ApodItemBinding
 
 
-class MainAdapter(val onClickListener: OnClickListener): RecyclerView.Adapter<MainAdapter.ViewHolder>(){
+class MainAdapter(val onClickListener: OnClickListener): ListAdapter<Apod,MainAdapter.ViewHolder>(ApodDiffCallback()){
 
-    var apodList = listOf<Apod>()
-        set(value){
-            field = value
-            notifyDataSetChanged()
-        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.apod_item,parent,false)
-        return ViewHolder(view)
-    }
-
-    override fun getItemCount(): Int {
-        return apodList.size
+        return ViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = apodList[position]
+        val item = getItem(position)
         holder.bind(item)
         holder.itemView.setOnClickListener {
             onClickListener.onClick(item)
         }
     }
 
-
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val apodImage = itemView.findViewById<ImageView>(R.id.apod_image)
+    class ViewHolder private constructor(val binding: ApodItemBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(apod: Apod){
-            val uri = apod.url.toUri().buildUpon().scheme("https").build()
-            Glide.with(apodImage.context)
-                .load(uri)
-                .centerCrop()
-                .into(apodImage)
+            binding.apod = apod
+            binding.executePendingBindings()
+        }
+
+        companion object{
+            fun from(parent: ViewGroup):ViewHolder{
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ApodItemBinding.inflate(layoutInflater)
+                return ViewHolder(binding)
+            }
         }
     }
 
     class OnClickListener(val listener : (apod: Apod) -> Unit){
         fun onClick (apod: Apod) = listener(apod)
+    }
+
+    class ApodDiffCallback: DiffUtil.ItemCallback<Apod>(){
+        override fun areItemsTheSame(oldItem: Apod, newItem: Apod): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Apod, newItem: Apod): Boolean {
+            return oldItem == newItem
+        }
+
     }
 }
