@@ -7,7 +7,7 @@ import androidx.room.*
 @Dao
 interface ApodDao{
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(dataBaseApod: DataBaseApod)
 
     @Query("SELECT * FROM databaseapod")

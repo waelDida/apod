@@ -1,5 +1,6 @@
 package com.projects.mycompany.apod_app.network
 
+
 import com.projects.mycompany.apod_app.database.DataBaseApod
 
 data class NetworkApod(
@@ -8,9 +9,8 @@ data class NetworkApod(
     val url: String
 )
 
-fun List<NetworkApod>.asDataBaseModel(): List<DataBaseApod>{
-    return map{
-        DataBaseApod(title = it.title,explanation = it.explanation,url = it.url)
+fun NetworkApod.asDataBaseModel(): DataBaseApod {
+    return let {
+        DataBaseApod(title = it.title, explanation = it.explanation, url = it.url)
     }
-
 }

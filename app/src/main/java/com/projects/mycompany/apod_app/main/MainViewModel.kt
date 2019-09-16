@@ -1,47 +1,45 @@
 package com.projects.mycompany.apod_app.main
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.projects.mycompany.apod_app.NASA_KEY
 import com.projects.mycompany.apod_app.data.Apod
-import com.projects.mycompany.apod_app.network.ApodService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.IOException
+import com.projects.mycompany.apod_app.database.getDataBase
+import com.projects.mycompany.apod_app.isOnline
+import com.projects.mycompany.apod_app.repository.ApodRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 
-class MainViewModel: ViewModel(){
 
-    private val _response = MutableLiveData<Apod>()
-    val response: LiveData<Apod>
-        get() = _response
+class MainViewModel(application: Application): AndroidViewModel(application){
 
-    private val _status = MutableLiveData<String>()
-    val status: LiveData<String>
-        get() = _status
 
     private val _navigateToSelectedApod = MutableLiveData<Apod>()
     val navigateToSelectedApod: LiveData<Apod>
         get() = _navigateToSelectedApod
 
+    private val viewModelJob = SupervisorJob()
+    private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
+    private val database = getDataBase(application)
+    private val repository = ApodRepository(database)
+
+    val apods = repository.apods
+
     init {
-      getApod()
+        if(isOnline(application))
+            refreshData()
     }
 
-    private fun getApod(){
-        ApodService.retrofitService.getData(NASA_KEY).enqueue(object: Callback<Apod>{
-            override fun onFailure(call: Call<Apod>, t: Throwable) {
-                if(t is IOException)
-                    _status.value = "No internet connection"
-                else
-                    _status.value = "Something wrong happened"
-            }
-            override fun onResponse(call: Call<Apod>, response: Response<Apod>) {
-               _response.value = response.body()
-            }
-        })
+    private fun refreshData(){
+        viewModelScope.launch {
+            repository.refreshDataBase()
+        }
+
     }
 
     fun onNavigate(apod: Apod){
@@ -50,5 +48,10 @@ class MainViewModel: ViewModel(){
 
     fun onNvigateTerminated(){
         _navigateToSelectedApod.value = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }
