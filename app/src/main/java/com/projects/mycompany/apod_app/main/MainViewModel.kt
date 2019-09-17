@@ -28,12 +28,12 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     private val database = getDataBase(application)
     private val repository = ApodRepository(database)
 
-    val apods = repository.apods
-
     init {
         if(isOnline(application))
             refreshData()
     }
+
+    val apods = repository.apods
 
     private fun refreshData(){
         viewModelScope.launch {
