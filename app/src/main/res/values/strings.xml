@@ -5,4 +5,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="main_button_text">Explore</string>
     <string name="about_text">About</string>
+    <string name="about_details">Apod is a sample app that fetch and display the Astronomy Picture Of the Day.
+        It implements the MVVM architecture using android architucture components</string>
+
 </resources>
